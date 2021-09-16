@@ -1,17 +1,43 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Store from './store/store';
+import theme from './theme';
+import { ThemeProvider } from '@material-ui/styles';
+import "@fontsource/roboto-slab";
+import {
+  BrowserRouter as Router,
+
+} from "react-router-dom";
+
+
+
+
+
+const store = new Store();
+
+interface IContext {
+  store: Store
+}
+
+
+export const Context = createContext<IContext>({ store, })
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <Context.Provider value={{
+      store
+    }}>
+      <Router>
+        <App />
+      </Router>
+
+    </Context.Provider>
+  </ThemeProvider>
+  ,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
