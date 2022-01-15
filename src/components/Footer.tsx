@@ -26,12 +26,13 @@ const useStyles = makeStyles(theme => ({
    root: {
       width: 330,
       marginTop: '20%',
-      marginLeft: '35%'
+      marginLeft: '35%',
 
    },
 
    background: {
       backgroundImage: `url(${background})`,
+      fontFamily: 'Roboto Slab'
    },
 
    background2: {

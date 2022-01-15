@@ -203,7 +203,7 @@ const useStyles = makeStyles(theme => ({
 function AllDirections() {
 
    const classes = useStyles()
-   const { store } = useContext(Context);
+   const { user } = useContext(Context);
    return (
       <div>
          <Container fluid="xxl">

@@ -2,7 +2,7 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Store from './store/store';
+import User from './store/user';
 import theme from './theme';
 import { ThemeProvider } from '@material-ui/styles';
 import "@fontsource/roboto-slab";
@@ -10,26 +10,28 @@ import {
   BrowserRouter as Router,
 
 } from "react-router-dom";
+import Course from './store/course';
 
 
 
 
-
-const store = new Store();
+const user = new User();
+const course = new Course();
 
 interface IContext {
-  store: Store
+  user: User,
+  course: Course
 }
 
 
-export const Context = createContext<IContext>({ store, })
+export const Context = createContext<IContext>({ user, course })
 
 
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Context.Provider value={{
-      store
+      user, course
     }}>
       <Router>
         <App />

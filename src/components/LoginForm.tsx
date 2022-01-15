@@ -108,7 +108,7 @@ function TabContainer(props) {
 const LoginForm: FC = () => {
    const [email, setEmail] = useState<string>('')
    const [password, setPassword] = useState<string>('')
-   const { store } = useContext(Context);
+   const { user } = useContext(Context);
    const classes = useStyles()
 
    const [value, setValue] = React.useState(0);
@@ -121,8 +121,8 @@ const LoginForm: FC = () => {
    let location = useLocation();
    let { from } = location.state || { from: { pathname: "/login" } };
    let login = () => {
-      store.registration(email, password)
-      store.login(email, password)
+      user.registration(email, password)
+      user.login(email, password)
       history.replace(from);
    };
 
@@ -198,7 +198,7 @@ const LoginForm: FC = () => {
                            fullWidth
                         />
 
-                        <Button variant="contained" fullWidth color="primary" onClick={() => store.login(email, password)} >
+                        <Button variant="contained" fullWidth color="primary" onClick={() => user.login(email, password)} >
                            Войти
                         </Button>
 

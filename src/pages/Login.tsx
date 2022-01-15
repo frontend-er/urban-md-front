@@ -17,14 +17,14 @@ import { motion } from 'framer-motion';
 function Login() {
 
 
-   const { store } = useContext(Context);
+   const { user } = useContext(Context);
    const [users, setUsers] = useState<IUser[]>([]);
 
    useEffect(() => {
       if (localStorage.getItem('token')) {
-         store.checkAuth()
+         user.checkAuth()
       }
-   }, [store])
+   }, [user])
 
    async function getUsers() {
       try {
@@ -35,11 +35,11 @@ function Login() {
       }
    }
 
-   if (store.isLoading) {
+   if (user.isLoading) {
       return <div><img style={{ width: 62, height: 89.07 }} src={logo} alt="loading..." /></div>
    }
 
-   if (!store.isAuth) {
+   if (!user.isAuth) {
       return (
          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div>
@@ -51,7 +51,7 @@ function Login() {
    }
 
 
-   if (!store.user.isActivated) {
+   if (!user.user.isActivated) {
       return (
          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div>

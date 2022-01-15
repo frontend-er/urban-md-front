@@ -34,7 +34,7 @@ import AppBurger from './AppBurger';
 const useStyles = makeStyles(theme => ({
    root: {
       fontFamily: 'Roboto Slab',
-      backgroundColor: '#F5F5F5'
+      backgroundColor: '#fff'
    },
 
    logo: {
@@ -219,7 +219,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function Header() {
+function HeaderCabinet() {
    const { user } = useContext(Context);
    const classes = useStyles()
 
@@ -235,7 +235,7 @@ function Header() {
 
 
    return (
-      <Container fluid="xl" className={classes.root}>
+      <Container fluid="xxl" className={classes.root}>
          <Row>
 
             <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1} className={classes.holderLogo}>
@@ -408,24 +408,10 @@ function Header() {
                               Войти
                            </Button>
                         </div> : <div>
-                           <Button variant="text" color="default" className={classes.buttonLogin} component={RouterLink} to="/cabinet">
-                              <Hidden mdDown>
-                                 В кабинет
-                              </Hidden>
-
-                              <Hidden lgUp>
-                                 <div>
-                                    <FontAwesomeIcon icon={faHome} className={classes.callIconMini} />
-
-                                 </div>
-                              </Hidden>
-
-                           </Button>
                            <Button variant="text" color="default" className={classes.buttonLogin} component={RouterLink} to="/" onClick={() => user.logout()}>
 
                               <Hidden mdDown>
                                  Выйти
-
                               </Hidden>
 
                               <Hidden lgUp>
@@ -445,4 +431,4 @@ function Header() {
    );
 }
 
-export default observer(Header);
+export default observer(HeaderCabinet);

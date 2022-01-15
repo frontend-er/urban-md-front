@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { observer } from "mobx-react-lite";
 import { Context } from '..';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -9,10 +9,20 @@ import bgpage from "../assets/CoursesMax/ArtTherapy/RestorationBroken/bgpage.png
 import star from "../assets/CoursesMax/ArtTherapy/RestorationBroken/star.png";
 import hugs from "../assets/CoursesMax/ArtTherapy/RestorationBroken/hugs.png";
 import quote from "../assets/CoursesMax/ArtTherapy/RestorationBroken/quote.png";
+import block2 from "../assets/CoursesMax/ArtTherapy/RestorationBroken/block2.png";
+import block3 from "../assets/CoursesMax/ArtTherapy/RestorationBroken/block3.png";
+import block4 from "../assets/CoursesMax/ArtTherapy/RestorationBroken/block4.png";
+import block5 from "../assets/CoursesMax/ArtTherapy/RestorationBroken/block5.png";
 import block1 from "../assets/CoursesMax/ArtTherapy/RestorationBroken/block1.png";
+
 import smallItem from "../assets/CoursesMax/ArtTherapy/RestorationBroken/smalItem.png";
+import leaderPhoto from "../assets/CoursesMax/ArtTherapy/RestorationBroken/YuliaUbeivolk.png";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeaderCourseDescription from '../components/LeaderCourseDescription';
+import FeedBackSection from '../components/FeedBackSection';
+import CoursePlan from '../components/CoursePlan';
+import { motion } from 'framer-motion';
 
 const useStyles = makeStyles(theme => ({
    root: {
@@ -213,7 +223,9 @@ const useStyles = makeStyles(theme => ({
 
    program: {
       background: '#000',
-      fontFamily: 'Roboto Slab'
+      fontFamily: 'Roboto Slab',
+      paddingBottom: 20,
+      marginBottom: -20
    },
 
 
@@ -258,488 +270,459 @@ const useStyles = makeStyles(theme => ({
 
 
 
+const comments = [{
+   "comentatorName": "Elena Vaculovschi",
+   "comentatorImage": "https://fv2-3.failiem.lv/thumb_show.php?i=qxjkwzccr&view",
+   "comentatorSubtitle": "Посетитель курса",
+   "comment": "Мне очень понравился курс, особенно практическая часть курса со всеми её упражнениями и заданиями. Вся предоставленная информация была доступной, очень хорошо структурирована! Также я смогла больше узнать себя!"
+},
+{
+   "comentatorName": "Василе Фаркас",
+   "comentatorImage": "https://files.fm/thumb_show.php?i=wsp5qsebv&view",
+   "comentatorSubtitle": "Посетитель курса",
+   "comment": "Для меня этот курс был важным и полезным, потому что я глубже осознал что в служение с разными людьми, имеющие разные проблемы, важно иметь знание и специальный подход. Важно для меня было также понять, что я не должен и не правильно рвануться разрешать проблему пострадавшего и спасать его, а важно то, чтобы я помог таким людям найти ресурсы для восстановления. Для меня курс был хорошим опытом и уверен, что послужит в дальнейшем работе и служении.  Спасибо большое!"
+},
+]
+
+const plan = [{
+   "blockNumber": "1",
+   "blockTitile": "Арт-терапия как инструмент в работе с людьми:",
+   "blockList": [{
+      "name": "История арт-терапии"
+   },
+   {
+      "name": "Терапевтические цели и методология"
+   },
+   {
+      "name": "Виды арт-терапии"
+   }
+   ],
+   "imagePreview": block1
+},
+
+{
+   "blockNumber": "2",
+   "blockTitile": "Метафорические ассоциативные карты:",
+   "blockList": [{
+      "name": "Цветотерапия Инструмент для работы МАК"
+   },
+   {
+      "name": "Воображение + рефлексия"
+   },
+   {
+      "name": "Интерпретация карточки индивидуально"
+   }],
+   "imagePreview": block2
+},
+
+{
+   "blockNumber": "3",
+   "blockTitile": "ИЗО-терапия:",
+   "blockList": [{
+      "name": "Психодиагностика рисункa"
+   },
+   {
+      "name": "Методика Акватипия"
+   },
+   {
+      "name": "Правила интерпретации"
+   },
+   {
+      "name": "Терапевтические изо-техники"
+   }],
+   "imagePreview": block3
+},
+
+{
+   "blockNumber": "4",
+   "blockTitile": "Песочная терапия:",
+   "blockList": [{
+      "name": "Возможности и ограничения"
+   },
+   {
+      "name": "Структура сессии в песке"
+   },
+   {
+      "name": "Мотивационные игры с песком"
+   },
+   {
+      "name": "Диагностика травмы в песочнице"
+   }],
+   "imagePreview": block4
+},
+
+{
+   "blockNumber": "5",
+   "blockTitile": "Сказкотерапия:",
+   "blockList": [{
+      "name": "Принципы работы со сказками"
+   },
+   {
+      "name": "Виды сказок и их алгоритмы"
+   },
+   {
+      "name": "Пример психологической работы со сказкой"
+   },
+   {
+      "name": "Создание сказки при помощи МАК"
+   }],
+   "imagePreview": block5
+},
+]
+
+
+
+
 
 
 const RestoreBrokenCourse: FC = () => {
    const classes = useStyles()
-   const { store } = useContext(Context);
-   const videoResurse = "https://drive.google.com/file/d/1rN4IONbP4DNruCXhKianLwU7u6SfpbyH "
+   const { user } = useContext(Context);
+
+
+   useEffect(() => {
+      window.scrollTo(0, 0);
+   }, []);
+
+
+
    return (
-      <div>
-         <div className={classes.root}>
-            <Header />
-            <div className={classes.header}>
-               <Container fluid="xxl">
-                  <Row >
-                     <Col>
-                        <div className={classes.holder}>
-                           <div>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+         <div>
+            <div className={classes.root}>
+               <Header />
+               <div className={classes.header}>
+                  <Container fluid="xxl">
+                     <Row >
+                        <Col>
+                           <div className={classes.holder}>
                               <div>
-                                 <Row >
-                                    <Col xs={2}>
-                                       <div className={classes.ladelHolder}>
-                                          <div className={classes.label}>
-                                             Art-Therapy
+                                 <div>
+                                    <Row >
+                                       <Col xs={2}>
+                                          <div className={classes.ladelHolder}>
+                                             <div className={classes.label}>
+                                                Art-Therapy
 
+                                             </div>
                                           </div>
-                                       </div>
-                                    </Col>
-                                 </Row>
-                                 <Row >
-                                    <Col>
-                                       <div className={classes.titleHolder}>
-                                          Методы  <span className={classes.decoratrionTitle}> Арт-терапии </span>
-                                       </div>
-                                    </Col>
-                                 </Row>
-                                 <Row >
-                                    <Col>
-                                       <div className={classes.subHolder}>
-                                          Познакомим вас с  Aрт-терапией
-                                       </div>
-                                    </Col>
-                                 </Row>
-                                 <Row >
-                                    <Col>
-                                       <div className={classes.description}>
-                                          Покажем эффективность и практичность арт-терапии в работе с людьми как в группе, так и индивидуально.Предупредим о возможных перегибах при применении этого метода и поделимся основными алгоритами и принципами работы.
-                                       </div>
-                                    </Col>
-                                 </Row>
-                                 <Row >
-                                    <Col sm={3} style={{ marginBottom: 100 }}>
-                                       <Button fullWidth variant='contained' style={{ color: '#fff', backgroundColor: '#8741A2', margin: 10 }}>
-                                          Купить курс
-                                       </Button>
-                                    </Col>
-                                    <Col sm={1}>
-                                    </Col>
-                                    <Col sm={2}>
-                                       <div >
-                                          Длительность:
-                                       </div>
-                                       <div>
-                                          15 часов
-                                       </div>
-                                    </Col>
-                                    <Col sm={2}>
-                                       <div>
-                                          Цена:
-                                       </div>
-                                       <div>
-                                          100$
-                                       </div>
-                                    </Col>
-                                    <Col sm={2}>
-                                       <div>
-                                          Старт:
-                                       </div>
-                                       <div>
-                                          в любое время
-                                       </div>
-                                    </Col>
-                                 </Row>
-
-                                 <Row >
-                                    <Col>
-                                       <div className={classes.subHolder}>
-                                          Кому будет полезен курс:
-
-                                       </div>
-                                    </Col>
-                                 </Row>
-
-                                 <Row >
-                                    <Col>
-                                       <div className={classes.forWho}>
-                                          <img src={star} alt='star' style={{ marginRight: 20 }} />
+                                       </Col>
+                                    </Row>
+                                    <Row >
+                                       <Col>
+                                          <div className={classes.titleHolder}>
+                                             Методы  <span className={classes.decoratrionTitle}> Арт-терапии </span>
+                                          </div>
+                                       </Col>
+                                    </Row>
+                                    <Row >
+                                       <Col>
+                                          <div className={classes.subHolder}>
+                                             Познакомим вас с  Aрт-терапией
+                                          </div>
+                                       </Col>
+                                    </Row>
+                                    <Row >
+                                       <Col>
+                                          <div className={classes.description}>
+                                             Покажем эффективность и практичность арт-терапии в работе с людьми как в группе, так и индивидуально.Предупредим о возможных перегибах при применении этого метода и поделимся основными алгоритами и принципами работы.
+                                          </div>
+                                       </Col>
+                                    </Row>
+                                    <Row >
+                                       <Col sm={3} style={{ marginBottom: 100 }}>
+                                          <Button fullWidth variant='contained' style={{ color: '#fff', backgroundColor: '#8741A2', margin: 10 }}>
+                                             Купить курс
+                                          </Button>
+                                       </Col>
+                                       <Col sm={1}>
+                                       </Col>
+                                       <Col sm={2}>
+                                          <div >
+                                             Длительность:
+                                          </div>
                                           <div>
-                                             Тем, кто хочет сменить <br /> профессию
+                                             15 часов
                                           </div>
-                                       </div>
-                                    </Col>
-                                    <Col>
-                                       <div className={classes.forWho}>
-                                          <img src={star} alt='star' style={{ marginRight: 20 }} />
+                                       </Col>
+                                       <Col sm={2}>
                                           <div>
-                                             Тем, кто хочет сменить <br /> профессию
+                                             Цена:
                                           </div>
-                                       </div>
-                                    </Col>
-                                    <Col>
-                                       <div className={classes.forWho}>
-                                          <img src={star} alt='star' style={{ marginRight: 20 }} />
                                           <div>
-                                             Тем, кто хочет сменить <br /> профессию
+                                             100$
                                           </div>
-                                       </div>
-                                    </Col>
-                                 </Row>
+                                       </Col>
+                                       <Col sm={2}>
+                                          <div>
+                                             Старт:
+                                          </div>
+                                          <div>
+                                             в любое время
+                                          </div>
+                                       </Col>
+                                    </Row>
+
+                                    <Row >
+                                       <Col>
+                                          <div className={classes.subHolder}>
+                                             Кому будет полезен курс:
+
+                                          </div>
+                                       </Col>
+                                    </Row>
+
+                                    <Row >
+                                       <Col>
+                                          <div className={classes.forWho}>
+                                             <img src={star} alt='star' style={{ marginRight: 20 }} />
+                                             <div>
+                                                Тем, кто хочет сменить <br /> профессию
+                                             </div>
+                                          </div>
+                                       </Col>
+                                       <Col>
+                                          <div className={classes.forWho}>
+                                             <img src={star} alt='star' style={{ marginRight: 20 }} />
+                                             <div>
+                                                Тем, кто хочет сменить <br /> профессию
+                                             </div>
+                                          </div>
+                                       </Col>
+                                       <Col>
+                                          <div className={classes.forWho}>
+                                             <img src={star} alt='star' style={{ marginRight: 20 }} />
+                                             <div>
+                                                Тем, кто хочет сменить <br /> профессию
+                                             </div>
+                                          </div>
+                                       </Col>
+                                    </Row>
+                                 </div>
                               </div>
                            </div>
-                        </div>
-                     </Col>
-                  </Row>
-               </Container>
-            </div>
+                        </Col>
+                     </Row>
+                  </Container>
+               </div>
 
-            <div className={classes.page}>
+               <div className={classes.page}>
+                  <Container fluid="xxl" >
+
+                     <Row >
+                        <Col >
+                           <div className={classes.titleSection}>
+                              О чем этот курс?
+                           </div>
+                        </Col>
+                     </Row>
+                     <Row >
+                        <Col lg={4}  >
+                           <div className={classes.aboutHolder}>
+                              <div className={classes.aboutNumber}>
+                                 01
+
+                              </div>
+                              <div className={classes.aboutText}>
+                                 Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
+                              </div>
+                           </div>
+                        </Col>
+                        <Col lg={4}>
+                           <div className={classes.aboutHolder}>
+                              <div className={classes.aboutNumber}>
+                                 02
+
+                              </div>
+                              <div className={classes.aboutText}>
+                                 Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
+                              </div>
+                           </div>
+                        </Col>
+                        <Col lg={4}>
+                           <div className={classes.aboutHolder}>
+                              <div className={classes.aboutNumber}>
+                                 03
+
+                              </div>
+                              <div className={classes.aboutText}>
+                                 Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
+                              </div>
+                           </div>
+                        </Col>
+                     </Row>
+                  </Container>
+
+
+                  <Container fluid="xxl" >
+
+                     <Row >
+                        <Col >
+                           <div className={classes.titleSection} style={{ textAlign: 'left', marginBottom: 10 }}>
+                              Как работает арт терапия:
+                           </div>
+                           <div className={classes.subtitleSection}>
+                              расскажем на примере разбитого стакана
+                           </div>
+                           <div className={classes.underline}>
+
+                           </div>
+
+
+                           <div className={classes.aboutText} style={{ textAlign: 'left', marginLeft: 0, marginTop: 30, marginBottom: 30 }}>
+                              Представьте, что <b > вы разбили</b>  стакан дома.
+                              Чтобы это имправить, придется пройти <br /> через несколько простых шагов.
+                           </div>
+                        </Col>
+                     </Row>
+                     <Row >
+                        <Col lg={4}  >
+                           <div className={classes.storyHolder}>
+                              <div className={classes.storyNumber}>
+                                 ВЫ РАССТРАИВАЕТЕСЬ
+
+                              </div>
+                              <div className={classes.storyText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu interdum tempor aliquam in tincidunt aliquet nibh. Enim facilisis dolor sed sit.     </div>
+                           </div>
+                        </Col>
+                        <Col lg={4}>
+                           <div className={classes.storyHolder}>
+                              <div className={classes.storyNumber}>
+                                 ВЫ РАССТРАИВАЕТЕСЬ
+
+                              </div>
+                              <div className={classes.storyText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu interdum tempor aliquam in tincidunt aliquet nibh. Enim facilisis dolor sed sit.     </div>
+                           </div>
+                        </Col>
+                        <Col lg={4}>
+                           <div className={classes.storyHolder}>
+                              <div className={classes.storyNumber}>
+                                 ВЫ РАССТРАИВАЕТЕСЬ
+
+                              </div>
+                              <div className={classes.storyText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu interdum tempor aliquam in tincidunt aliquet nibh. Enim facilisis dolor sed sit.     </div>
+                           </div>
+                        </Col>
+                     </Row>
+
+                     <Row >
+                        <Col>
+                           <div className={classes.contanerQuote}>
+                              <img src={quote} alt='star' style={{ position: 'absolute', marginLeft: -40, marginTop: -40 }} />
+                              И ещё много разных специалистов стоит за каждым из сервисов. Вы тоже можете в этом участвовать. Главное — найти то, что ближе вашим интересам и способностям. Этим и займёмся на курсе.
+                           </div>
+                        </Col>
+                     </Row>
+
+
+                     <Row >
+                        <Col lg={4}  >
+                           <div className={classes.aboutHolder}>
+                              <img src={hugs} alt='star' />
+
+                              <div className={classes.infoNumber}>
+                                 Вы интересуетесь психолгией
+                              </div>
+                              <div className={classes.infoText}>
+                                 Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
+                              </div>
+                           </div>
+                        </Col>
+                        <Col lg={4}>
+                           <div className={classes.aboutHolder}>
+                              <img src={hugs} alt='star' />
+
+                              <div className={classes.infoNumber}>
+                                 Вы интересуетесь психолгией
+                              </div>
+                              <div className={classes.infoText}>
+                                 Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
+                              </div>
+                           </div>
+                        </Col>
+                        <Col lg={4}>
+                           <div className={classes.aboutHolder}>
+                              <img src={hugs} alt='star' />
+
+                              <div className={classes.infoNumber}>
+                                 Вы интересуетесь психолгией
+                              </div>
+                              <div className={classes.infoText}>
+                                 Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
+                              </div>
+                           </div>
+                        </Col>
+                     </Row>
+
+
+                     <Row >
+                        <Col>
+                           <div className={classes.smallContainer}>
+                              <Row >
+                                 <Col md={1}>
+                                 </Col>
+                                 <Col md={7}>
+
+                                    <div className={classes.smallWrapper}>
+                                       <div className={classes.smallTextTitle}>
+                                          Лекции у нас или у вас!
+                                       </div>
+                                    </div>
+
+                                    <div className={classes.smallText}>
+                                       Вы выбираете, где провести мероприятие, а наша команда берет все организационные вопросы на себя
+                                    </div>
+                                 </Col>
+                                 <Col md={1}>
+                                 </Col>
+                                 <Col md={1}>
+                                    <div>
+                                       <img src={smallItem} alt='star' />
+                                    </div>
+                                 </Col>
+                                 <Col md={1}>
+                                 </Col>
+                              </Row>
+                           </div>
+                        </Col>
+                     </Row>
+                  </Container>
+               </div>
+            </div >
+
+            <div className={classes.program}>
                <Container fluid="xxl" >
-
                   <Row >
                      <Col >
                         <div className={classes.titleSection}>
-                           О чем этот курс?
+                           Программа курса
+                        </div>
+                        <div className={classes.subtitleSection} style={{ color: '#fff', textAlign: 'center', marginTop: -40, fontWeight: 300, marginBottom: 30, }}>
+                           Основные психологические синдромы и техники работы с ними.
                         </div>
                      </Col>
                   </Row>
-                  <Row >
-                     <Col lg={4}  >
-                        <div className={classes.aboutHolder}>
-                           <div className={classes.aboutNumber}>
-                              01
-
-                           </div>
-                           <div className={classes.aboutText}>
-                              Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
-                           </div>
-                        </div>
-                     </Col>
-                     <Col lg={4}>
-                        <div className={classes.aboutHolder}>
-                           <div className={classes.aboutNumber}>
-                              02
-
-                           </div>
-                           <div className={classes.aboutText}>
-                              Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
-                           </div>
-                        </div>
-                     </Col>
-                     <Col lg={4}>
-                        <div className={classes.aboutHolder}>
-                           <div className={classes.aboutNumber}>
-                              03
-
-                           </div>
-                           <div className={classes.aboutText}>
-                              Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
-                           </div>
-                        </div>
-                     </Col>
-                  </Row>
-               </Container>
+                  {
+                     plan.map((t: any) =>
+                        <CoursePlan {...t} />
+                     )
+                  }
 
 
-               <Container fluid="xxl" >
-
-                  <Row >
-                     <Col >
-                        <div className={classes.titleSection} style={{ textAlign: 'left', marginBottom: 10 }}>
-                           Как работает арт терапия:
-                        </div>
-                        <div className={classes.subtitleSection}>
-                           расскажем на примере разбитого стакана
-                        </div>
-                        <div className={classes.underline}>
-
-                        </div>
 
 
-                        <div className={classes.aboutText} style={{ textAlign: 'left', marginLeft: 0, marginTop: 30, marginBottom: 30 }}>
-                           Представьте, что <b > вы разбили</b>  стакан дома.
-                           Чтобы это имправить, придется пройти <br /> через несколько простых шагов.
-                        </div>
-                     </Col>
-                  </Row>
-                  <Row >
-                     <Col lg={4}  >
-                        <div className={classes.storyHolder}>
-                           <div className={classes.storyNumber}>
-                              ВЫ РАССТРАИВАЕТЕСЬ
 
-                           </div>
-                           <div className={classes.storyText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu interdum tempor aliquam in tincidunt aliquet nibh. Enim facilisis dolor sed sit.     </div>
-                        </div>
-                     </Col>
-                     <Col lg={4}>
-                        <div className={classes.storyHolder}>
-                           <div className={classes.storyNumber}>
-                              ВЫ РАССТРАИВАЕТЕСЬ
-
-                           </div>
-                           <div className={classes.storyText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu interdum tempor aliquam in tincidunt aliquet nibh. Enim facilisis dolor sed sit.     </div>
-                        </div>
-                     </Col>
-                     <Col lg={4}>
-                        <div className={classes.storyHolder}>
-                           <div className={classes.storyNumber}>
-                              ВЫ РАССТРАИВАЕТЕСЬ
-
-                           </div>
-                           <div className={classes.storyText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu interdum tempor aliquam in tincidunt aliquet nibh. Enim facilisis dolor sed sit.     </div>
-                        </div>
-                     </Col>
-                  </Row>
-
-                  <Row >
-                     <Col>
-                        <div className={classes.contanerQuote}>
-                           <img src={quote} alt='star' style={{ position: 'absolute', marginLeft: -40, marginTop: -40 }} />
-                           И ещё много разных специалистов стоит за каждым из сервисов. Вы тоже можете в этом участвовать. Главное — найти то, что ближе вашим интересам и способностям. Этим и займёмся на курсе.
-                        </div>
-                     </Col>
-                  </Row>
-
-
-                  <Row >
-                     <Col lg={4}  >
-                        <div className={classes.aboutHolder}>
-                           <img src={hugs} alt='star' />
-
-                           <div className={classes.infoNumber}>
-                              Вы интересуетесь психолгией
-                           </div>
-                           <div className={classes.infoText}>
-                              Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
-                           </div>
-                        </div>
-                     </Col>
-                     <Col lg={4}>
-                        <div className={classes.aboutHolder}>
-                           <img src={hugs} alt='star' />
-
-                           <div className={classes.infoNumber}>
-                              Вы интересуетесь психолгией
-                           </div>
-                           <div className={classes.infoText}>
-                              Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
-                           </div>
-                        </div>
-                     </Col>
-                     <Col lg={4}>
-                        <div className={classes.aboutHolder}>
-                           <img src={hugs} alt='star' />
-
-                           <div className={classes.infoNumber}>
-                              Вы интересуетесь психолгией
-                           </div>
-                           <div className={classes.infoText}>
-                              Вы узнаете, как не попасть в ловушки популярных синдромов. Научитесь выявлять их у себя и близких. И главное — получите практические методы борьбы с ними.
-                           </div>
-                        </div>
-                     </Col>
-                  </Row>
-
-
-                  <Row >
-                     <Col>
-                        <div className={classes.smallContainer}>
-                           <Row >
-                              <Col md={1}>
-                              </Col>
-                              <Col md={7}>
-
-                                 <div className={classes.smallWrapper}>
-                                    <div className={classes.smallTextTitle}>
-                                       Лекции у нас или у вас!
-                                    </div>
-                                 </div>
-
-                                 <div className={classes.smallText}>
-                                    Вы выбираете, где провести мероприятие, а наша команда берет все организационные вопросы на себя
-                                 </div>
-                              </Col>
-                              <Col md={1}>
-                              </Col>
-                              <Col md={1}>
-                                 <div>
-                                    <img src={smallItem} alt='star' />
-                                 </div>
-                              </Col>
-                              <Col md={1}>
-                              </Col>
-                           </Row>
-                        </div>
-                     </Col>
-                  </Row>
                </Container>
             </div>
+            <LeaderCourseDescription name="Юлия Убейволк" workPosirion="Практикующий психолог, арт-терапевт." description="Стаж и опыт работы 20 лет при общественной организации 
+            «Начало Жизни», где  является учредителем. За эти годы  выполняла две роли: программного директора и психолога. На разных этапах были разные проекты оказания помощи - 5 лет женщинам в кризисной беременности, 9 лет опыт работы психолога для женщин с тяжелыми травмами и последствиями сексуального и физического насилия. Затем 6 лет- работа в приюте с девочками подростками, и последние 7 лет один из наших центров это Психологическая Арт Студия, где  больше всего вовлекается в качестве психолога арт-терапевта. "  quote="Верю, что каждый человек уникален, интересен и богат, важно помочь ему раскрыться, преодолеть все препятствия на пути к успеху. В моей жизни всегда были люди и обстоятельства, которые помогали мне идти вперед и я сегодня человек, который помогает другим. 
+                  Чем я могу вам помочь?" inProfession="более 20 лет" inWork="более 20 лет" withUs="более 20 лет" photoUrl={leaderPhoto} color="#8741A2" />
+
+            <FeedBackSection color="#2C003C" comments={comments} />
+            <Footer />
          </div >
 
-         <div className={classes.program}>
-            <Container fluid="xxl" >
-               <Row >
-                  <Col >
-                     <div className={classes.titleSection}>
-                        Программа курса
-                     </div>
-                     <div className={classes.subtitleSection} style={{ color: '#fff', textAlign: 'center', marginTop: -40, fontWeight: 300, marginBottom: 30, }}>
-                        Основные психологические синдромы и техники работы с ними.
-                     </div>
-                  </Col>
-               </Row>
-               <Row >
-                  <Col>
-                     <div className={classes.prorgamBlock}>
-                        <img src={block1} alt='star' />
-
-                        <div className={classes.blockName}>
-                           1<span className={classes.blockSmall}>-ый</span> Блок
-                        </div>
-                        <div>
-                           <div className={classes.blockTitle}>
-                              Арт-терапия как инструмент в работе с людьми:
-
-                           </div>
-                           <ul>
-                              <li className={classes.blockList}>
-                                 История арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Терапевтические цели и методология
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </Col>
-               </Row>
-               <Row >
-                  <Col>
-                     <div className={classes.prorgamBlock}>
-                        <img src={block1} alt='star' />
-
-                        <div className={classes.blockName}>
-                           2<span className={classes.blockSmall}>-ый</span> Блок
-                        </div>
-                        <div>
-                           <div className={classes.blockTitle}>
-                              Арт-терапия как инструмент в работе с людьми:
-
-                           </div>
-                           <ul>
-                              <li className={classes.blockList}>
-                                 История арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Терапевтические цели и методология
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </Col>
-               </Row>
-               <Row >
-                  <Col>
-                     <div className={classes.prorgamBlock}>
-                        <img src={block1} alt='star' />
-
-                        <div className={classes.blockName}>
-                           3<span className={classes.blockSmall}>-ый</span> Блок
-                        </div>
-                        <div>
-                           <div className={classes.blockTitle}>
-                              Арт-терапия как инструмент в работе с людьми:
-
-                           </div>
-                           <ul>
-                              <li className={classes.blockList}>
-                                 История арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Терапевтические цели и методология
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </Col>
-               </Row>
-               <Row >
-                  <Col>
-                     <div className={classes.prorgamBlock}>
-                        <img src={block1} alt='star' />
-
-                        <div className={classes.blockName}>
-                           4<span className={classes.blockSmall}>-ый</span> Блок
-                        </div>
-                        <div>
-                           <div className={classes.blockTitle}>
-                              Арт-терапия как инструмент в работе с людьми:
-
-                           </div>
-                           <ul>
-                              <li className={classes.blockList}>
-                                 История арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Терапевтические цели и методология
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </Col>
-               </Row>
-               <Row >
-                  <Col>
-                     <div className={classes.prorgamBlock}>
-                        <img src={block1} alt='star' />
-
-                        <div className={classes.blockName}>
-                           5<span className={classes.blockSmall}>-ый</span> Блок
-                        </div>
-                        <div>
-                           <div className={classes.blockTitle}>
-                              Арт-терапия как инструмент в работе с людьми:
-
-                           </div>
-                           <ul>
-                              <li className={classes.blockList}>
-                                 История арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Терапевтические цели и методология
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                              <li className={classes.blockList}>
-                                 Виды арт-терапии
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </Col>
-               </Row>
-
-            </Container>
-         </div>
-         <Footer />
-      </div >
-
+      </motion.div >
    );
 };
 

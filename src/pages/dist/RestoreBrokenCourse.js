@@ -104,9 +104,9 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         fontSize: 23
     }
 }); });
-var RestoreBrokenCourse = function () {
+var ReuserBrokenCourse = function () {
     var classes = useStyles();
-    var store = react_1.useContext(__1.Context).store;
+    var user = react_1.useContext(__1.Context).user;
     var videoResurse = "https://drive.google.com/file/d/1rN4IONbP4DNruCXhKianLwU7u6SfpbyH ";
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement("div", { className: classes.root },
@@ -197,4 +197,4 @@ var RestoreBrokenCourse = function () {
                     react_1["default"].createElement(react_bootstrap_1.Row, null,
                         react_1["default"].createElement(react_bootstrap_1.Col, null)))))));
 };
-exports["default"] = mobx_react_lite_1.observer(RestoreBrokenCourse);
+exports["default"] = mobx_react_lite_1.observer(ReuserBrokenCourse);

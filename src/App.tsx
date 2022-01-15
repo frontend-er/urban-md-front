@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { observer } from "mobx-react-lite";
 import {
   BrowserRouter as Router,
@@ -9,11 +9,19 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import { AnimatePresence, motion } from 'framer-motion';
 import RestoreBrokenCourse from './pages/RestoreBrokenCourse';
+import { Context } from '.';
+import Cabinet from './pages/Cabinet';
+import Watch from './pages/Watch';
 
 
 const App: FC = () => {
 
   const location = useLocation();
+  const { user } = useContext(Context);
+
+  useEffect(() => {
+    user.checkAuth()
+  })
 
 
   return (
@@ -29,6 +37,12 @@ const App: FC = () => {
         </Route>
         <Route path="/course/1">
           <RestoreBrokenCourse />
+        </Route>
+        <Route path="/cabinet">
+          <Cabinet />
+        </Route>
+        <Route path="/watch/1">
+          <Watch />
         </Route>
       </Switch>
     </AnimatePresence>

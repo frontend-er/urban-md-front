@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 
 const EmailConfirm: FC = () => {
    const classes = useStyles()
-   const { store } = useContext(Context);
+   const { user } = useContext(Context);
 
    return (
       <div className={classes.background}>
@@ -87,7 +87,7 @@ const EmailConfirm: FC = () => {
 
 
                      <div className={classes.buttons}>
-                        <Button variant="contained" fullWidth color="primary" onClick={() => store.logout()}>
+                        <Button variant="contained" fullWidth color="primary" onClick={() => user.logout()}>
                            Выйти
                         </Button>
                      </div>

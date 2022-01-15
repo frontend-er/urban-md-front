@@ -2,9 +2,8 @@ import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import OneCourse from '../OneCourse';
-import RestoreBroken from '../../assets/CoursesMini/ArtTherapy/RestoreBroken/RestoreBoken.png'
+import ReuserBroken from '../../assets/CoursesMini/ArtTherapy/RestoreBroken/RestoreBoken.png'
 import IUbeivolk from '../../assets/CoursesMini/ArtTherapy/RestoreBroken/IUbeivolk.png'
-
 
 const useStyles = makeStyles(theme => ({
 
@@ -50,21 +49,21 @@ function HotOne() {
             <Col >
                <div>
                   <OneCourse id={1} title='“Как восстанавливать
-                        разрушенное”' label="Urban PAS" lector='Iulia Ubeivolk' positionLector="Психолог, арт-терапевт" tags='psychology' price={100} accentColor='violet' imgLector={IUbeivolk} img={RestoreBroken} description="Курс, для тех, кто работает с людьми и помогает им восстанавливаться от нанесенных ударов судьбы, кто нуждается в инструментах и практических советах в этом труде." />
+                        разрушенное”' bgColor='#E1D3E6' label="Urban PAS" lector='Iulia Ubeivolk' positionLector="Психолог, арт-терапевт" tags='psychology' price={100} imgLector={IUbeivolk} img={ReuserBroken} description="Курс, для тех, кто работает с людьми и помогает им восстанавливаться от нанесенных ударов судьбы, кто нуждается в инструментах и практических советах в этом труде." accentColor='#8741A2' />
 
                </div>
             </Col>
             <Col >
                <div>
                   <OneCourse id={2} title='“Как восстанавливать
-                        разрушенное”' label="Urban PAS" lector='Iulia Ubeivolk' positionLector="Психолог, арт-терапевт" tags='psychology' price={100} accentColor='violet' imgLector={IUbeivolk} img={RestoreBroken} description="Курс, для тех, кто работает с людьми и помогает им восстанавливаться от нанесенных ударов судьбы, кто нуждается в инструментах и практических советах в этом труде." />
+                        разрушенное”' bgColor='#E1D3E6' label="Urban PAS" lector='Iulia Ubeivolk' positionLector="Психолог, арт-терапевт" tags='psychology' price={100} imgLector={IUbeivolk} img={ReuserBroken} description="Курс, для тех, кто работает с людьми и помогает им восстанавливаться от нанесенных ударов судьбы, кто нуждается в инструментах и практических советах в этом труде." accentColor='#8741A2' />
 
                </div>
             </Col>
             <Col >
                <div>
                   <OneCourse id={3} title='“Как восстанавливать 
-                        разрушенное”' label="Urban PAS" lector='Iulia Ubeivolk' positionLector="Психолог, арт-терапевт" tags='psychology' price={100} accentColor='violet' imgLector={IUbeivolk} img={RestoreBroken} description="Курс, для тех, кто работает с людьми и помогает им восстанавливаться от нанесенных ударов судьбы, кто нуждается в инструментах и практических советах в этом труде." />
+                        разрушенное”' bgColor='#E1D3E6' label="Urban PAS" lector='Iulia Ubeivolk' positionLector="Психолог, арт-терапевт" tags='psychology' price={100} imgLector={IUbeivolk} img={ReuserBroken} description="Курс, для тех, кто работает с людьми и помогает им восстанавливаться от нанесенных ударов судьбы, кто нуждается в инструментах и практических советах в этом труде." accentColor='#8741A2' />
 
                </div>
             </Col>

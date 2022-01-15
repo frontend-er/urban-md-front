@@ -6,7 +6,7 @@ import { AuthResponse } from "../models/response/AuthResponse";
 import { API_URL } from "../http";
 import { IUser } from "../models/response/IUser";
 
-export default class Store {
+export default class User {
    user = {} as IUser;
    isAuth = false;
    isLoading = false;
@@ -94,3 +94,6 @@ export default class Store {
       }
    }
 }
+
+
+

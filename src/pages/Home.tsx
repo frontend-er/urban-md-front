@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React, { useContext, Component, Fragment } from 'react';
 import { Context } from '..';
 import { Button, makeStyles } from '@material-ui/core';
@@ -30,8 +32,10 @@ const useStyles = makeStyles(theme => ({
 function Home() {
 
    const classes = useStyles()
+   const { course } = useContext(Context);
+   const { user } = useContext(Context);
 
-   const { store } = useContext(Context);
+
    return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
          <div className={classes.root}>

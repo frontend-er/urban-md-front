@@ -9,6 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { NavLink } from 'react-router-dom';
 import Redirect, { useHistory } from 'react-router'
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 
 const useStyles = makeStyles({
    root: {
@@ -79,29 +82,56 @@ const useStyles = makeStyles({
 
 interface IOneCourse {
    id: number,
-   title: string,
-   lector: string,
-   tags: string,
-   price: number,
+   courseTitle: string,
+   courseLector: string,
+   coursePosition: string,
+   courseDescription: number,
    accentColor: string,
    bgColor: string,
-   img: string,
-   imgLector: string,
-   description: string,
-   positionLector: string,
-   label: string,
+   progress: number,
+   raiting: number,
+   photoLeader: string,
+   photoLabel: string,
+
+}
+
+interface ILinearProgressWithLabel {
+
+   progress: number
+
+
 }
 
 
 
-function OneCourse(props: IOneCourse) {
 
 
+function LinearProgressWithLabel({ progress }: ILinearProgressWithLabel) {
+   return (
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+         <Box sx={{ width: '100%', mr: 1 }}>
+            <LinearProgress variant="determinate" />
+         </Box>
+         <Box sx={{ minWidth: 35 }}>
+            <Typography variant="body2" >{`${Math.round(
+               progress,
+            )}%`}</Typography>
+         </Box>
+      </Box>
+   );
+}
+
+
+
+
+function OneCoursePurshcased(props: IOneCourse) {
+
+   const [value, setValue] = React.useState<number | null>(2);
    const classes = useStyles();
    let history = useHistory();
 
    const redirect = () => {
-      history.push(`/course/${props.id}`)
+      history.push(`/watch/${props.id}`)
    }
 
 
@@ -111,20 +141,17 @@ function OneCourse(props: IOneCourse) {
             <CardActionArea onClick={redirect} >
                <CardMedia
                   className={classes.media}
-                  image={props.img}
-                  title={props.title}
+                  image={props.photoLabel}
+                  title={props.courseTitle}
                />
-               <div className={classes.labelCourseHolder}>
 
-                  {props.label}
-               </div>
                <div className={classes.titleCourseHolder}>
-                  {props.title}
+                  {props.courseTitle}
 
                </div>
                <CardContent>
                   <div className={classes.titleHolder}>
-                     <img src={props.imgLector} alt="lector" style={{ marginRight: 20 }} />
+                     <img src={props.photoLeader} alt="lector" style={{ marginRight: 20 }} />
 
                      <div>
                         <div className={classes.wrapperLabelLector}>
@@ -132,10 +159,10 @@ function OneCourse(props: IOneCourse) {
 
                         </div>
                         <Typography gutterBottom variant="h5" component="h2" className={classes.lectorHolder}>
-                           {props.lector}
+                           {props.courseLector}
                         </Typography>
                         <div className={classes.subtitle}>
-                           {props.positionLector}
+                           {props.coursePosition}
                         </div>
 
                      </div>
@@ -143,27 +170,20 @@ function OneCourse(props: IOneCourse) {
                   </div>
 
                   <Typography variant="body2" color="textSecondary" component="p" className={classes.descriptioneHolder}>
-                     {props.description}
+                     {props.courseDescription}
                   </Typography>
                </CardContent>
             </CardActionArea>
             <CardActions >
-               <NavLink to={`/course/${props.id}`} style={{ textDecoration: 'none', marginRight: 3 }}>
-                  <Button fullWidth variant='outlined' style={{
-                     color: props.accentColor, borderColor: props.accentColor, margin: 10
-                  }} >
-                     Подробнее
-                  </Button>
-               </NavLink>
-
-
-               <Button fullWidth variant='contained' style={{ color: '#fff', backgroundColor: props.accentColor, margin: 10 }}>
-                  В корзину +
-               </Button>
+               <Box sx={{ width: '100%' }}>
+                  <LinearProgressWithLabel progress={props.progress} />
+               </Box>
+               Reting
+               <Rating name="disabled" value={props.raiting} disabled />
             </CardActions>
          </Card>
       </div>
    );
 }
 
-export default OneCourse;
+export default OneCoursePurshcased;
